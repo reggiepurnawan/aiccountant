@@ -3,7 +3,11 @@ import animatePlugin from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
-  content: ["./app/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./.storybook/**/*.{js,jsx,ts,tsx}",
+    "./stories/**/*.{js,jsx,ts,tsx}"
+  ],
   theme: {
     container: {
       center: true,
@@ -20,8 +24,8 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#86EFAC",
+          foreground: "#1F2937",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add any global styles needed for stories */
+#storybook-root {
+  min-height: 100vh;
+  background: white;
+} 

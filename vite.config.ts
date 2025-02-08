@@ -8,9 +8,15 @@ declare module "@remix-run/node" {
   }
 }
 
+// Determine if we are running Storybook
+const isStorybook = process.env.STORYBOOK === "true";
+console.log(`Vite Config: Running in Storybook mode? ${isStorybook}`);
+
 export default defineConfig({
   plugins: [
-    remix({
+    tsconfigPaths(),
+    // Only include the Remix plugin when not running Storybook
+    !isStorybook && remix({
       future: {
         v3_fetcherPersist: true,
         v3_relativeSplatPath: true,
@@ -19,6 +25,25 @@ export default defineConfig({
         v3_lazyRouteDiscovery: true,
       },
     }),
-    tsconfigPaths(),
-  ],
+  ].filter(Boolean), // Filter out any false values
+  resolve: {
+    alias: {
+      "~": "/app",
+    },
+  },
+  css: {
+    // Explicitly point to your postcss config file
+    postcss: './postcss.config.cjs',
+  },
+  ...(isStorybook && {
+    // Storybook-specific configuration:
+    optimizeDeps: {
+      include: ["@storybook/react"],
+    },
+    build: {
+      rollupOptions: {
+        external: ["@remix-run/node"],
+      },
+    },
+  }),
 });

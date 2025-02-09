@@ -1,82 +1,65 @@
 import React from "react";
-import { Link, useLocation } from "@remix-run/react";
-import { cn } from "~/lib/utils";
+import { useLocation } from "@remix-run/react";
 import { 
-  HomeIcon, 
-  ReceiptText, 
-  PieChart,
+  House,
+  Receipt,
+  ChartPie,
   Wallet,
   Plus
-} from "lucide-react";
-
-const navItems = [
-  {
-    name: "Home",
-    to: "/",
-    icon: HomeIcon,
-  },
-  {
-    name: "Transaction",
-    to: "/transactions",
-    icon: ReceiptText,
-  },
-  {
-    name: "Categories",
-    to: "/categories",
-    icon: PieChart,
-  },
-  {
-    name: "Accounts",
-    to: "/accounts",
-    icon: Wallet,
-  },
-] as const;
+} from "@phosphor-icons/react";
+import { NavMenuItem } from "./nav-menu-item";
 
 export function BottomNav() {
   const location = useLocation();
   
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-8">
-      <nav className="relative flex items-center justify-between h-16 bg-white rounded-full shadow-lg px-6">
-        {/* Left Items */}
-        <div className="flex items-center space-x-8">
-          {navItems.slice(0, 2).map((item) => (
-            <NavItem key={item.to} item={item} isActive={location.pathname === item.to} />
-          ))}
-        </div>
+    <div className="fixed bottom-0 left-0 right-0">
+      <div className="max-w-md mx-auto">
+        {/* Outer container with top padding to accommodate floating button */}
+        <div className="pt-5">
+          <nav className="relative flex h-[60px] bg-white">
+            <div className="flex justify-between items-center w-full px-3">
+              <NavMenuItem
+                to="/"
+                label="Home"
+                isActive={location.pathname === "/"}
+                Icon={House}
+              />
+              
+              <NavMenuItem
+                to="/transactions"
+                label="Transaction"
+                isActive={location.pathname === "/transactions"}
+                Icon={Receipt}
+              />
 
-        {/* Center Plus Button */}
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-          <button 
-            className="w-14 h-14 rounded-full bg-[#86EFAC] flex items-center justify-center shadow-lg hover:bg-[#86EFAC]/90"
-            onClick={() => {/* TODO */}}
-          >
-            <Plus className="w-7 h-7 text-[#1F2937]" />
-          </button>
-        </div>
+              {/* Spacer for the plus button */}
+              <div className="relative w-[50px]">
+                <button 
+                  className="absolute left-1/2 -translate-x-1/2 -top-12 w-[50px] h-[50px] rounded-full bg-[#AED1AE] flex items-center justify-center border-2 border-white shadow-lg hover:bg-[#AED1AE]/90 transition-colors z-10"
+                  onClick={() => {/* TODO */}}
+                >
+                  <Plus className="w-7 h-7 text-white" />
+                </button>
+              </div>
 
-        {/* Right Items */}
-        <div className="flex items-center space-x-8">
-          {navItems.slice(2).map((item) => (
-            <NavItem key={item.to} item={item} isActive={location.pathname === item.to} />
-          ))}
+              <NavMenuItem
+                to="/categories"
+                label="Categories"
+                isActive={location.pathname === "/categories"}
+                Icon={ChartPie}
+              />
+              
+              <NavMenuItem
+                to="/accounts"
+                label="Accounts"
+                isActive={location.pathname === "/accounts"}
+                Icon={Wallet}
+              />
+            </div>
+          </nav>
         </div>
-      </nav>
+      </div>
     </div>
   );
 }
-
-function NavItem({ item, isActive }: { item: typeof navItems[number]; isActive: boolean }) {
-  return (
-    <Link
-      to={item.to}
-      className={cn(
-        "flex flex-col items-center",
-        isActive ? "text-[#86EFAC]" : "text-gray-400"
-      )}
-    >
-      <item.icon className="w-6 h-6" />
-      <span className="text-xs font-medium mt-1">{item.name}</span>
-    </Link>
-  );
-} 

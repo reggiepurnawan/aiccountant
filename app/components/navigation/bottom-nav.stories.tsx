@@ -9,20 +9,34 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
+  tags: ["autodocs"],
+  argTypes: {
+    activePath: {
+      control: "select",
+      options: ["/", "/transactions", "/categories", "/accounts"],
+      labels: {
+        "/": "Home",
+        "/transactions": "Transactions",
+        "/categories": "Categories",
+        "/accounts": "Accounts"
+      }
+    }
+  },
   decorators: [
     (Story) => {
       const RemixStub = createRemixStub([
         {
-          path: "/",
+          path: "*",
           Component: () => (
-            <div className="relative h-[812px] bg-white">
-              <div className="absolute inset-x-0 bottom-0">
+            <div className="bg-gray-100 min-h-screen w-full max-w-md mx-auto">
+              <div className="absolute bottom-0 left-0 right-0">
                 <Story />
               </div>
             </div>
           ),
         },
       ]);
+      
       return <RemixStub />;
     },
   ],
@@ -31,9 +45,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-
-export const ActiveHome: Story = {
+export const Home: Story = {
   parameters: {
     reactRouter: {
       location: { pathname: "/" }
@@ -41,10 +53,26 @@ export const ActiveHome: Story = {
   }
 };
 
-export const ActiveTransaction: Story = {
+export const Transactions: Story = {
   parameters: {
     reactRouter: {
       location: { pathname: "/transactions" }
+    }
+  }
+};
+
+export const Categories: Story = {
+  parameters: {
+    reactRouter: {
+      location: { pathname: "/categories" }
+    }
+  }
+};
+
+export const Accounts: Story = {
+  parameters: {
+    reactRouter: {
+      location: { pathname: "/accounts" }
     }
   }
 }; 
